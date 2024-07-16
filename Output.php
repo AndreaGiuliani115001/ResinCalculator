@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <title>Resin calculator</title>
 
-    <!-- Include Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
 </head>
 <body>
 <div class="container mt-5">
@@ -15,8 +15,8 @@
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         global $conn;
-        // Recupera i dati inviati dal form
 
+        // Recupera i dati inviati dal form
         $processo = $_POST['processo'];
         $materiale = $_POST['materiale'];
         $tessuto = $_POST['tessuto'];
@@ -107,11 +107,13 @@
         echo "</div><br>";
 
     } else {
+
         // Se non ci sono dati inviati, mostra un messaggio di errore
         echo "<p>Nessun dato ricevuto.</p>";
     }
     ?>
 </div>
+
 <!-- Include Bootstrap JS and dependencies -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>

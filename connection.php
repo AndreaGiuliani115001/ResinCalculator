@@ -1,8 +1,8 @@
 <?php
 $servername = "localhost";
-$username = "root"; // Il nome utente predefinito di MySQL su XAMPP è "root"
-$password = ""; // La password predefinita di MySQL su XAMPP è vuota
-$dbname = "resin_calculator"; // Nome del database che hai creato
+$username = "root";
+$password = "";
+$dbname = "resin_calculator";
 
 // Crea la connessione
 $conn = new mysqli($servername, $username, $password, $dbname);
