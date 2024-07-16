@@ -45,29 +45,28 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt->bind_result($tw);
         $stmt->fetch();
 
+        $spessore = $tw * $grammature[$i] * 0.001;
 
         //tutti i valori fissi 2.34 , 1.5 , 1 , 1 sono tw
-        if (!empty($grammature_misto[$i]) && $materiale == 'glass' && $processo == 1) {
+        if (!empty($grammature_misto[$i])) {
 
-            $spessore = $tw * $grammature[$i] * 0.001;
-            $spessore = $spessore + ($grammature_misto[$i] * 2.34 * 0.001);
+            if ($materiale == 'glass' && $processo == 1) {
 
-        } else if (!empty($grammature_misto[$i]) && $materiale == 'glass' && $processo == 2) {
+                $spessore = $spessore + ($grammature_misto[$i] * 2.34 * 0.001);
 
-            $spessore = $tw * $grammature[$i] * 0.001;
-            $spessore = $spessore + ($grammature_misto[$i] * 1.5 * 0.001);
+            } else if ($materiale == 'glass' && $processo == 2) {
 
-        } else if (!empty($grammature_misto[$i]) && $materiale == 'basalt' && $processo == 1) {
+                $spessore = $spessore + ($grammature_misto[$i] * 1.5 * 0.001);
 
-            $spessore = $tw * $grammature[$i] * 0.001;
-            $spessore = $spessore + ($grammature_misto[$i] * 1 * 0.001);
+            } else if ($materiale == 'basalt' && $processo == 1) {
 
-        } else if (!empty($grammature_misto[$i]) && $materiale == 'basalt' && $processo == 2) {
+                $spessore = $spessore + ($grammature_misto[$i] * 1 * 0.001);
 
-            $peso_fibra = ($grammature_misto[$i] * 1 * 0.001);
+            } else if ($materiale == 'basalt' && $processo == 2) {
 
-        } else {
-            $spessore = $tw * $grammature[$i] * 0.001;
+                $spessore = $spessore + ($grammature_misto[$i] * 1 * 0.001);
+
+            }
         }
 
         $stmt->close();
