@@ -7,32 +7,83 @@
 <body>
 
 <?php
+
+include 'connection.php';
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    global $conn;
     // Recupera i dati inviati dal form
-    $materiali = $_POST['materiale'];
+
+    $processo = $_POST['processo'];
+    $materiale = $_POST['materiale'];
+    $tessuto = $_POST['tessuto'];
     $grammature = $_POST['grammatura'];
     $grammature_misto = $_POST['grammatura_misto'];
     $aree = $_POST['area'];
 
     echo "<table border='1'>";
-    echo "<tr><th>Materiale</th><th>grammatura[g/m2]</th><th>grammatura(misto Mat) [g/m2]</th><th>Area [m2]</th></tr>";
+    echo "<tr>
+              <th>Tessuto</th>
+              <th>grammatura[g/m2]</th>
+              <th>grammatura(misto Mat)[g/m2]</th>
+              <th>Area [m2]</th>
+              <th>Spessore[mm]</th>
+              <th>Peso fibra[kg]</th>
+              <th>Peso resina[kg]</th>
+              <th>Peso lam.[kg]</th>
+         </tr>";
 
     // Visualizza i dati inseriti
-    for ($i = 0; $i < count($materiali); $i++) {
+    for ($i = 0; $i < count($tessuto); $i++) {
 
         if (empty($materiali[$i]) && empty($grammature[$i]) && empty($grammature_misto[$i]) && empty($aree[$i])) {
             continue;
         }
 
+        $stmt = $conn->prepare("SELECT TW FROM $materiale WHERE ProcessoID = $processo AND TessutoID = $tessuto[$i]");
+        $stmt->execute();
+        $stmt->bind_result($tw);
+        $stmt->fetch();
+
+
+        //tutti i valori fissi 2.34 , 1.5 , 1 , 1 sono tw
+        if (!empty($grammature_misto[$i]) && $materiale == 'glass' && $processo == 1) {
+
+            $spessore = $tw * $grammature[$i] * 0.001;
+            $spessore = $spessore + ($grammature_misto[$i] * 2.34 * 0.001);
+
+        } else if (!empty($grammature_misto[$i]) && $materiale == 'glass' && $processo == 2) {
+
+            $spessore = $tw * $grammature[$i] * 0.001;
+            $spessore = $spessore + ($grammature_misto[$i] * 1.5 * 0.001);
+
+        } else if (!empty($grammature_misto[$i]) && $materiale == 'basalt' && $processo == 1) {
+
+            $spessore = $tw * $grammature[$i] * 0.001;
+            $spessore = $spessore + ($grammature_misto[$i] * 1 * 0.001);
+
+        } else if (!empty($grammature_misto[$i]) && $materiale == 'basalt' && $processo == 2) {
+
+            $peso_fibra = ($grammature_misto[$i] * 1 * 0.001);
+
+        } else {
+            $spessore = $tw * $grammature[$i] * 0.001;
+        }
+
+        $stmt->close();
+
         echo "<tr>";
-        echo "<td>" . htmlspecialchars($materiali[$i]) . "</td>";
+        echo "<td>" . htmlspecialchars($tessuto[$i]) . "</td>";
         echo "<td>" . htmlspecialchars($grammature[$i]) . "</td>";
         echo "<td>" . htmlspecialchars($grammature_misto[$i]) . "</td>";
         echo "<td>" . htmlspecialchars($aree[$i]) . "</td>";
+        echo "<td>" . $spessore . "</td>";
         echo "</tr>";
     }
 
+
     echo "</table>";
+
 } else {
     // Se non ci sono dati inviati, mostra un messaggio di errore
     echo "<p>Nessun dato ricevuto.</p>";

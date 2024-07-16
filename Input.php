@@ -10,22 +10,21 @@
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Recupera i valori inviati dal form iniziale
-    $processo = $_POST['process'];
-    $materiale = $_POST['material'];
+    $processo = $_POST['processo'];
+    $materiale = $_POST['materiale'];
 
-    echo "<h2>Inserisci i dettagli per $materiale - $processo</h2>";
     echo "<form action='Output.php' method='post'>";
     echo "<table border='1'>";
-    echo "<tr><th>Materiale</th><th>grammatura[g/m2]</th><th>grammatura(misto Mat)[g/m2]</th><th>Area[m2]</th></tr>";
-    echo "<tr><td>$materiale</td></tr>";
+    echo "<tr><th>Tessuto</th><th>grammatura[g/m2]</th><th>grammatura(misto Mat)[g/m2]</th><th>Area[m2]</th></tr>";
+
     // Genera 15 righe di input
     for ($i = 0; $i < 15; $i++) {
         echo "<tr>";
-        echo "<td><select name='materiale[]'>";
-        echo "<option value='Gel coat'>Gel coat</option>";
-        echo "<option value='Mat'>Mat</option>";
-        echo "<option value='Multidirectional'>Multidirectional</option>";
-        echo "<option value='Unidirectional'>Unidirectional</option>";
+        echo "<td><select name='tessuto[]'>";
+        echo "<option value='1'>Mat</option>";
+        echo "<option value='2'>Multidirectional</option>";
+        echo "<option value='3'>Unidirectional</option>";
+        echo "<option value='4'>Gel coat</option>";
         echo "</select></td>";
         echo "<td><input type='number' name='grammatura[]'></td>";
         echo "<td><input type='number' name='grammatura_misto[]'></td>";
@@ -35,6 +34,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     echo "</table>";
     echo "<br>";
+
+    //parametri $processo e $materiale da passare ad output.php
+    echo "<input type='hidden' name='processo' value='" . htmlspecialchars($processo) . "'>";
+    echo "<input type='hidden' name='materiale' value='" . htmlspecialchars($materiale) . "'>";
+
+
     echo "<input type='submit' value='Calcola'>";
     echo "</form>";
 } else {
