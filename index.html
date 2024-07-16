@@ -1,10 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+    <meta charset="UTF-8">
+    <title>Resin Calculator</title>
 </head>
 <body>
-$END$
+    <h1>Seleziona Processo e Materiale</h1>
+    <form action="Input.php" method="post">
+        <label for="process">Processo:</label>
+        <select name="process" id="process">
+            <option value="Hand layup">Hand layup</option>
+            <option value="Infusion">Infusion</option>
+        </select>
+        <br><br>
+        <label for="material">Materiale:</label>
+        <select name="material" id="material">
+            <option value="Glass">Glass</option>
+            <option value="Carbon">Carbon</option>
+            <option value="Basalt">Basalt</option>
+        </select>
+        <br><br>
+        <input type="submit" value="Invia">
+    </form>
 </body>
 </html>
